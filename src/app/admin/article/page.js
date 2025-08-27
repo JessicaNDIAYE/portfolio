@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabaseClient';
 import Image from 'next/image';
 
+export const dynamic = 'force-dynamic'; // Désactive le pré-rendu
+
+
 export default function AjouterArticle() {
   const [titre, setTitre] = useState('');
   const [contenu, setContenu] = useState('');
