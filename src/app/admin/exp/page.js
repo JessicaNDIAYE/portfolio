@@ -114,7 +114,7 @@ export default function AjouterExperience() {
           />
         </div>
         <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-          Ajouter l'expérience
+          Ajouter l&apos;expérience
         </button>
       </form>
     </div>

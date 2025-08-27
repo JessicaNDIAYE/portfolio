@@ -94,7 +94,7 @@ export default function AjouterArticle() {
       <h1 className="text-2xl font-bold mb-6">Ajouter un article</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Titre de l'article</label>
+          <label className="block text-sm font-medium text-gray-700">Titre de l&apos;article</label>
           <input
             type="text"
             value={titre}

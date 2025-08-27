@@ -20,7 +20,7 @@ export default function BioAdmin() {
         return;
       }
 
-      const { data, error } = await supabase
+      const { data} = await supabase
         .from('bio')
         .select('*')
         .eq('user_id', user.id)

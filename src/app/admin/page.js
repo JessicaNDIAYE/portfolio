@@ -103,7 +103,7 @@ const AdminPage = () => {
 
             {/* Carte pour gérer l'éducation */}
             <div className="bg-white/70 p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Gérer l'éducation</h2>
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">Gérer l&apos;éducation</h2>
               <p className="text-gray-600 mb-4">
                 Ajoutez ou modifiez vos formations et diplômes.
               </p>
