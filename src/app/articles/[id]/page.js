@@ -1,9 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabaseClient';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Image from 'next/image';
 
 export default function Article() {
   const [article, setArticle] = useState(null);
@@ -11,9 +12,9 @@ export default function Article() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
+  const router = useRouter();
   const params = useParams();
-  const id = params?.id; // 🔑 mémorise la valeur primitive
+  const id = params?.id;
 
   const nextImage = () => {
     if (!article?.images?.length) return;
@@ -27,20 +28,16 @@ export default function Article() {
 
   useEffect(() => {
     if (!id) return;
-
     const fetchArticle = async () => {
       try {
         setLoading(true);
         const { data: articleData, error: articleError } = await supabase
-  .from("article")
-  .select("*, projet(*)")
-  .eq("projet_id", id)  
-  .maybeSingle();
-
-
+          .from("article")
+          .select("*, projet(*)")
+          .eq("projet_id", id)
+          .maybeSingle();
         if (articleError) throw articleError;
         if (!articleData) throw new Error('Aucun article trouvé.');
-
         setArticle(articleData);
         setProjet(articleData.projet);
       } catch (err) {
@@ -50,9 +47,8 @@ export default function Article() {
         setLoading(false);
       }
     };
-
     fetchArticle();
-  }, [id]); // ✅ dépend uniquement du string id
+  }, [id]);
 
   if (loading) return <div className="min-h-screen flex items-center justify-center">Chargement...</div>;
   if (error) return <div className="min-h-screen flex items-center justify-center">Erreur: {error}</div>;
@@ -62,16 +58,15 @@ export default function Article() {
     <div className="min-h-screen flex flex-col cahier-bg">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-12 flex flex-col md:flex-row gap-6">
-        {/* Bouton retour */}
-        
         {/* Marge gauche : Post-its avec infos du projet */}
         <div className="w-full md:w-64 flex-shrink-0 space-y-4">
           <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 mb-6 text-blue-600 hover:underline"
-        >
-          ← Retour
-        </button>
+            onClick={() => router.back()}
+            className="flex items-center gap-2 mb-6 text-blue-600 hover:underline"
+          >
+            ← Retour
+          </button>
+
           {/* Post-it : Nom du projet */}
           <div className="p-4 bg-yellow-100 border-l-4 border-yellow-300 rounded-sm shadow-md transform -rotate-1 hover:scale-105 transition-transform">
             <h3 className="font-bold text-lg handwritten-text">📁 {projet.nom}</h3>
@@ -107,7 +102,7 @@ export default function Article() {
                       rel="noopener noreferrer"
                       className="text-xs hover:underline flex items-center"
                     >
-                      <img src="/github.svg" alt="GitHub" className="w-4 h-4" />
+                      <Image src="/github.svg" alt="GitHub" width={16} height={16} />
                       {contrib.nom}
                     </a>
                   </div>
@@ -125,10 +120,13 @@ export default function Article() {
           {article.images && article.images.length > 0 && (
             <div className="relative mb-6">
               <div className="overflow-hidden rounded-lg">
-                <img
+                <Image
                   src={article.images[currentImageIndex]}
                   alt={`Image ${currentImageIndex + 1}`}
+                  width={800}
+                  height={256}
                   className="w-full h-64 object-cover"
+                  priority={currentImageIndex === 0}
                 />
               </div>
               <div className="flex justify-between mt-2">
@@ -160,7 +158,6 @@ export default function Article() {
           <div className="mt-8">
             <h2 className="text-xl font-bold mb-4 handwritten-title">🎯 Objectifs</h2>
             <p className="handwritten-text mb-4">{projet.objectifs}</p>
-
             <h2 className="text-xl font-bold mb-4 handwritten-title">📝 Description</h2>
             <p className="handwritten-text">{projet.description}</p>
           </div>

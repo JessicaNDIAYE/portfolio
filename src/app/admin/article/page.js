@@ -2,21 +2,26 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabaseClient';
+import Image from 'next/image';
 
 export default function AjouterArticle() {
   const [titre, setTitre] = useState('');
   const [contenu, setContenu] = useState('');
   const [projetId, setProjetId] = useState('');
- 
   const [images, setImages] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [projets, setProjets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const fetchProjets = async () => {
       const { data, error } = await supabase.from('projet').select('id, nom');
-      if (data) setProjets(data);
+      if (error) {
+        console.error('Erreur lors de la récupération des projets:', error);
+      } else if (data) {
+        setProjets(data);
+      }
     };
     fetchProjets();
   }, []);
@@ -29,49 +34,58 @@ export default function AjouterArticle() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let imageUrls = [];
+    setIsLoading(true);
 
-    // Upload des images si elles existent
-    if (images.length > 0) {
-      const uploadPromises = images.map(async (image) => {
-        const fileExt = image.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `articles/${fileName}`;
+    try {
+      let imageUrls = [];
 
-        const { error: uploadError } = await supabase.storage
-          .from('articles')
-          .upload(filePath, image);
+      // Upload des images si elles existent
+      if (images.length > 0) {
+        const uploadPromises = images.map(async (image) => {
+          const fileExt = image.name.split('.').pop();
+          const fileName = `${Math.random()}.${fileExt}`;
+          const filePath = `articles/${fileName}`;
 
-        if (uploadError) {
-          console.error('Erreur upload image:', uploadError);
-          return null;
-        }
+          const { error: uploadError } = await supabase.storage
+            .from('articles')
+            .upload(filePath, image);
 
-        // Récupère l'URL publique de l'image
-        const { data: urlData } = supabase.storage
-          .from('articles')
-          .getPublicUrl(filePath);
+          if (uploadError) {
+            console.error('Erreur upload image:', uploadError);
+            return null;
+          }
 
-        return urlData.publicUrl;
+          // Récupère l'URL publique de l'image
+          const { data: urlData } = supabase.storage
+            .from('articles')
+            .getPublicUrl(filePath);
+
+          return urlData.publicUrl;
+        });
+
+        const urls = await Promise.all(uploadPromises);
+        imageUrls = urls.filter(url => url !== null);
+      }
+
+      // Insertion dans la base de données
+      const { error } = await supabase.from('article').insert({
+        titre,
+        contenu,
+        projet_id: projetId,
+        images: imageUrls,
       });
 
-      const urls = await Promise.all(uploadPromises);
-      imageUrls = urls.filter(url => url !== null);
-    }
-
-    // Insertion dans la base de données
-    const { error } = await supabase.from('article').insert({
-      titre,
-      contenu,
-      projet_id: projetId,
-      images: imageUrls,
-    });
-
-    if (error) {
-      console.error('Erreur:', error);
-      alert('Erreur lors de l\'ajout de l\'article');
-    } else {
-      router.push('/admin');
+      if (error) {
+        console.error('Erreur:', error);
+        alert("Erreur lors de l'ajout de l'article");
+      } else {
+        router.push('/admin');
+      }
+    } catch (err) {
+      console.error('Erreur inattendue:', err);
+      alert("Une erreur inattendue est survenue");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -99,13 +113,11 @@ export default function AjouterArticle() {
             required
           >
             <option value="">Sélectionnez un projet</option>
-            {projets.map(projet => (
+            {projets.map((projet) => (
               <option key={projet.id} value={projet.id}>{projet.nom}</option>
             ))}
           </select>
         </div>
-
-       
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Contenu</label>
@@ -127,15 +139,28 @@ export default function AjouterArticle() {
             accept="image/*"
             multiple
           />
-          <div className="mt-2 grid grid-cols-3 gap-2">
-            {previews.map((preview, index) => (
-              <img key={index} src={preview} alt={`Preview ${index}`} className="h-32 object-cover" />
-            ))}
-          </div>
+          {previews.length > 0 && (
+            <div className="mt-2 grid grid-cols-3 gap-2">
+              {previews.map((preview, index) => (
+                <Image
+                  key={index}
+                  src={preview}
+                  alt={`Aperçu ${index + 1}`}
+                  width={128}
+                  height={128}
+                  className="h-32 w-full object-cover rounded"
+                />
+              ))}
+            </div>
+          )}
         </div>
 
-        <button type="submit" className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">
-          Publier l'article
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={`bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          {isLoading ? 'Publication en cours...' : 'Publier l\'article'}
         </button>
       </form>
     </div>

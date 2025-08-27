@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/app/lib/supabaseClient';
+import Image from 'next/image';
 
 export default function Home() {
   const [bio, setBio] = useState(null);
@@ -14,41 +15,34 @@ export default function Home() {
 
   useEffect(() => {
     setAnimate(true);
-  }, []);
 
-  useEffect(() => {
     const fetchBio = async () => {
       const { data, error } = await supabase.from('bio').select('*').single();
-      if (error) console.error('Erreur Supabase:', error);
+      if (error) console.error('Erreur Supabase (bio):', error);
       else setBio(data);
     };
-    fetchBio();
-  }, []);
 
-  useEffect(() => {
     const fetchProjects = async () => {
       const { data, error } = await supabase.from('projet').select('*');
-      if (error) console.log('Error fetching projects:', error);
+      if (error) console.error('Erreur Supabase (projets):', error);
       else setProjects(data);
     };
-    fetchProjects();
-  }, []);
 
-  useEffect(() => {
     const fetchExp = async () => {
       const { data, error } = await supabase.from('exppro').select('*').order('date_debut', { ascending: false });
-      if (error) console.log('Error fetching experiences:', error);
+      if (error) console.error('Erreur Supabase (expérience):', error);
       else setExp(data);
     };
-    fetchExp();
-  }, []);
 
-  useEffect(() => {
     const fetchEducation = async () => {
       const { data, error } = await supabase.from('education').select('*').order('date_debut', { ascending: false });
-      if (error) console.log('Error fetching education:', error);
+      if (error) console.error('Erreur Supabase (éducation):', error);
       else setEducation(data);
     };
+
+    fetchBio();
+    fetchProjects();
+    fetchExp();
     fetchEducation();
   }, []);
 
@@ -67,10 +61,13 @@ export default function Home() {
             <div className="flex-1 bg-cahier-paper shadow-xl rounded-lg border-4 border-black p-6 cahier-section transform transition duration-700 hover:scale-[1.02]">
               <div className="flex flex-col items-center">
                 <div className="w-48 h-48 rounded-lg overflow-hidden border-4 border-black mb-4 hover:scale-105 transition-transform duration-300">
-                  <img
+                  <Image
                     src="/profile.jpg"
                     alt="Jessica Ndiaye"
+                    width={192}
+                    height={192}
                     className="w-full h-full object-cover grayscale"
+                    priority
                   />
                 </div>
                 <div id="about">
@@ -95,7 +92,7 @@ export default function Home() {
                       <p className="text-sm text-gray-700">
                         {experience.date_debut} - {experience.date_fin || 'Présent'} · {experience.compagnie}
                       </p>
-                      
+                      <p className="text-sm handwritten-text">{experience.description}</p>
                     </div>
                   ))}
                 </div>
@@ -122,10 +119,12 @@ export default function Home() {
                 <h2 className="text-xl font-bold text-black mb-2 handwritten-title">💻 Langages</h2>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
                   {(bio?.tech_stack || []).map((tech, index) => (
-                    <img
+                    <Image
                       key={index}
                       src={`https://img.shields.io/badge/${tech}-%23000000.svg?style=for-the-badge&logo=${tech.toLowerCase()}&logoColor=white`}
                       alt={tech}
+                      width={100}
+                      height={28}
                       className="h-6 grayscale hover:scale-105 transition-transform duration-200"
                     />
                   ))}
@@ -154,7 +153,7 @@ export default function Home() {
                   <h3 className="font-bold text-lg mb-1 handwritten-text">📁 {projet.nom}</h3>
                   <p className="text-sm mb-2 handwritten-text">{projet.description}</p>
                   <p className="text-xs"><strong>Objectifs :</strong> {projet.objectifs}</p>
-                  <p className="text-xs"><strong>Langages :</strong> {projet.langages.join(', ')}</p>
+                  <p className="text-xs"><strong>Langages :</strong> {projet.langages?.join(', ')}</p>
                   {projet.lien_github && (
                     <a
                       href={projet.lien_github}
@@ -162,38 +161,37 @@ export default function Home() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-xs text-blue-600 hover:underline"
                     >
-                      <img src="/github.svg" alt="GitHub" className="w-4 h-4" />
+                      <Image src="/github.svg" alt="GitHub" width={16} height={16} />
                     </a>
                   )}
                 </div>
               ))}
             </div>
           </div>
-      
-            {/* Section réseaux sociaux */}
-            <div id="contact" className="max-w-4xl mx-auto bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6 mb-8 cahier-section">
-              <h2 className="text-2xl font-bold text-black mb-4 handwritten-title">🌐 Contacts</h2>
-              <div className="flex space-x-4">
-                {(bio?.reseaux_sociaux || []).map((reseau, index) => (
-                  <a
-                    key={index}
-                    href={reseau.lien}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-2"
-                  >
-                    <img
-                      src={`https://img.shields.io/badge/${reseau.nom}-%230077B5.svg?logo=${reseau.icone}&logoColor=white`}
-                      alt={reseau.nom}
-                      className="h-8 grayscale"
-                    />
-                  </a>
-                ))}
-              </div>
-            </div>
 
-           
-          
+          {/* Section réseaux sociaux */}
+          <div id="contact" className="max-w-4xl mx-auto bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6 mb-8 cahier-section">
+            <h2 className="text-2xl font-bold text-black mb-4 handwritten-title">🌐 Contacts</h2>
+            <div className="flex space-x-4">
+              {(bio?.reseaux_sociaux || []).map((reseau, index) => (
+                <a
+                  key={index}
+                  href={reseau.lien}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2"
+                >
+                  <Image
+                    src={`https://img.shields.io/badge/${reseau.nom}-%230077B5.svg?logo=${reseau.icone}&logoColor=white`}
+                    alt={reseau.nom}
+                    width={120}
+                    height={32}
+                    className="h-8 grayscale"
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
         </main>
         <Footer />
       </div>
