@@ -24,3 +24,98 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Effet de papier quadrillé */
+body {
+  background-image:
+    linear-gradient(rgba(128, 128, 128, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 128, 128, 0.2) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: #fefae0; /* Couleur de fond beige clair */
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: black; /* Texte en noir */
+}
+
+/* Style pour les sections "cahier" */
+.bg-white\/90 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border: 2px solid rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les titres */
+h1, h2, h3, h4 {
+  color: black !important;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Style pour les bordures */
+.border-4, .border-2 {
+  border-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Style pour les images */
+img {
+  filter: grayscale(10%);
+}
+
+/* Style pour les listes et badges */
+.bg-pink-100 {
+  background-color: rgba(255, 182, 193, 0.3) !important;
+}
+
+/* Style pour les liens */
+a {
+  color: black !important;
+  text-decoration: none;
+}
+/* Fond quadrillé comme un cahier */
+.cahier-bg {
+  background-color: #fefae0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  min-height: 100vh;
+}
+
+/* Style des sections "papier" */
+.cahier-style {
+  position: relative;
+  padding: 20px;
+}
+
+/* Fond blanc légèrement transparent pour les sections */
+.bg-cahier-paper {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Style des titres et textes manuscrits */
+.handwritten-title {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: black;
+  text-decoration:none;
+}
+
+.handwritten-text {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: black;
+}
+
+/* Style des bordures et ombres */
+.cahier-section {
+  border: 2px solid rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style des badges et surbrillance */
+.bg-cahier-highlight {
+  background-color: rgba(255, 255, 0, 0.2);
+}
+
+/* Images en noir et blanc */
+.grayscale {
+  filter: grayscale(100%);
+}
+
