@@ -73,6 +73,20 @@ const AdminPage = () => {
               </button>
             </div>
 
+            {/* Carte pour gérer les projets */}
+            <div className="bg-white/70 p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">Gérer les projets</h2>
+              <p className="text-gray-600 mb-4">
+                Visualisez et modifiez vos projets existants.
+              </p>
+              <button
+                className="bg-indigo-50 text-indigo-600 font-medium py-2 px-4 rounded-lg hover:bg-indigo-100 transition-colors"
+                onClick={() => router.push('/admin/projets')}
+              >
+                Gérer
+              </button>
+            </div>
+
             {/* Carte pour ajouter un article */}
             <div className="bg-white/70 p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">Ajouter un article</h2>

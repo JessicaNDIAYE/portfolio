@@ -1,0 +1,177 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:0.3" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Floating Data Points -->
+  <g>
+    <circle cx="100" cy="100" r="4" fill="#22d3ee" opacity="0.7">
+      <animate attributeName="cy" values="100;80;100" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="150" r="3" fill="#a78bfa" opacity="0.6">
+      <animate attributeName="cy" values="150;130;150" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="200;220;200" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="700" cy="120" r="5" fill="#f59e0b" opacity="0.8">
+      <animate attributeName="cy" values="120;90;120" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="650" cy="200" r="3" fill="#10b981" opacity="0.7">
+      <animate attributeName="cy" values="200;180;200" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Main Chart Area -->
+  <rect x="150" y="200" width="500" height="300" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="2" rx="10"/>
+  
+  <!-- Animated Bar Chart -->
+  <g>
+    <rect x="180" y="420" width="40" height="0" fill="url(#chartGradient)" filter="url(#glow)">
+      <animate attributeName="height" values="0;80;60;80" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="y" values="420;340;360;340" dur="4s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="240" y="420" width="40" height="0" fill="url(#chartGradient)" filter="url(#glow)">
+      <animate attributeName="height" values="0;120;100;120" dur="4s" repeatCount="indefinite" begin="0.5s"/>
+      <animate attributeName="y" values="420;300;320;300" dur="4s" repeatCount="indefinite" begin="0.5s"/>
+    </rect>
+    <rect x="300" y="420" width="40" height="0" fill="url(#chartGradient)" filter="url(#glow)">
+      <animate attributeName="height" values="0;90;70;90" dur="4s" repeatCount="indefinite" begin="1s"/>
+      <animate attributeName="y" values="420;330;350;330" dur="4s" repeatCount="indefinite" begin="1s"/>
+    </rect>
+    <rect x="360" y="420" width="40" height="0" fill="url(#chartGradient)" filter="url(#glow)">
+      <animate attributeName="height" values="0;150;130;150" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+      <animate attributeName="y" values="420;270;290;270" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+    </rect>
+    <rect x="420" y="420" width="40" height="0" fill="url(#chartGradient)" filter="url(#glow)">
+      <animate attributeName="height" values="0;110;90;110" dur="4s" repeatCount="indefinite" begin="2s"/>
+      <animate attributeName="y" values="420;310;330;310" dur="4s" repeatCount="indefinite" begin="2s"/>
+    </rect>
+    <rect x="480" y="420" width="40" height="0" fill="url(#chartGradient)" filter="url(#glow)">
+      <animate attributeName="height" values="0;140;120;140" dur="4s" repeatCount="indefinite" begin="2.5s"/>
+      <animate attributeName="y" values="420;280;300;280" dur="4s" repeatCount="indefinite" begin="2.5s"/>
+    </rect>
+    <rect x="540" y="420" width="40" height="0" fill="url(#chartGradient)" filter="url(#glow)">
+      <animate attributeName="height" values="0;100;80;100" dur="4s" repeatCount="indefinite" begin="3s"/>
+      <animate attributeName="y" values="420;320;340;320" dur="4s" repeatCount="indefinite" begin="3s"/>
+    </rect>
+  </g>
+
+  <!-- Animated Line Graph -->
+  <polyline points="180,450 240,380 300,400 360,320 420,360 480,300 540,380 600,340" 
+            fill="none" stroke="#22d3ee" stroke-width="3" opacity="0.8" filter="url(#glow)">
+    <animate attributeName="stroke-dasharray" values="0,1000;1000,0;1000,0" dur="6s" repeatCount="indefinite"/>
+  </polyline>
+
+  <!-- Data Flow Lines -->
+  <g stroke="#a78bfa" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M50,300 Q200,250 350,300 T650,280">
+      <animate attributeName="stroke-dasharray" values="0,500;500,0;0,500" dur="8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M80,350 Q250,320 400,350 T720,330">
+      <animate attributeName="stroke-dasharray" values="0,600;600,0;0,600" dur="10s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- CPU/Processing Symbol -->
+  <g transform="translate(50,450)">
+    <rect x="0" y="0" width="60" height="60" fill="rgba(34,211,238,0.2)" stroke="#22d3ee" stroke-width="2" rx="5"/>
+    <rect x="15" y="15" width="30" height="30" fill="rgba(34,211,238,0.4)" rx="3">
+      <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Processing dots -->
+    <circle cx="20" cy="20" r="2" fill="#22d3ee">
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="30" cy="20" r="2" fill="#22d3ee">
+      <animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite" begin="0.3s"/>
+    </circle>
+    <circle cx="40" cy="20" r="2" fill="#22d3ee">
+      <animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite" begin="0.6s"/>
+    </circle>
+    <circle cx="20" cy="30" r="2" fill="#22d3ee">
+      <animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite" begin="0.9s"/>
+    </circle>
+    <circle cx="30" cy="30" r="2" fill="#22d3ee">
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+    <circle cx="40" cy="30" r="2" fill="#22d3ee">
+      <animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite" begin="0.8s"/>
+    </circle>
+  </g>
+
+  <!-- Network/ML Symbol -->
+  <g transform="translate(680,450)">
+    <circle cx="30" cy="10" r="8" fill="none" stroke="#10b981" stroke-width="2">
+      <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="10" cy="35" r="6" fill="none" stroke="#10b981" stroke-width="2">
+      <animate attributeName="r" values="6;10;6" dur="3s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+    <circle cx="50" cy="35" r="6" fill="none" stroke="#10b981" stroke-width="2">
+      <animate attributeName="r" values="6;10;6" dur="3s" repeatCount="indefinite" begin="2s"/>
+    </circle>
+    <circle cx="30" cy="55" r="8" fill="none" stroke="#10b981" stroke-width="2">
+      <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+    
+    <!-- Connecting lines -->
+    <line x1="30" y1="18" x2="18" y2="29" stroke="#10b981" stroke-width="2" opacity="0.7"/>
+    <line x1="30" y1="18" x2="42" y2="29" stroke="#10b981" stroke-width="2" opacity="0.7"/>
+    <line x1="18" y1="41" x2="30" y2="47" stroke="#10b981" stroke-width="2" opacity="0.7"/>
+    <line x1="42" y1="41" x2="30" y2="47" stroke="#10b981" stroke-width="2" opacity="0.7"/>
+  </g>
+
+  <!-- Title -->
+  <text x="400" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#ffffff" filter="url(#glow)">
+    DATA SCIENCE
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#a78bfa" opacity="0.8">
+    Analytics • Machine Learning • Insights
+  </text>
+
+  <!-- Binary Code Animation -->
+  <g font-family="monospace" font-size="10" fill="#22d3ee" opacity="0.3">
+    <text x="50" y="550">
+      <textPath href="#binaryPath">01001001 01101110 01110011 01101001 01100111 01101000 01110100 01110011</textPath>
+      <animate attributeName="opacity" values="0.3;0.7;0.3" dur="5s" repeatCount="indefinite"/>
+    </text>
+  </g>
+  
+  <!-- Hidden path for binary text -->
+  <defs>
+    <path id="binaryPath" d="M0,550 L800,550" stroke="none" fill="none"/>
+  </defs>
+
+  <!-- Pulsing Grid Background -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1">
+        <animate attributeName="stroke-opacity" values="0.1;0.3;0.1" dur="6s" repeatCount="indefinite"/>
+      </path>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#grid)" opacity="0.5"/>
+
+</svg>

@@ -52,10 +52,12 @@ export default function Home() {
         <title>Jessica NDIAYE | Portfolio</title>
         <meta name="description" content="Computer Engineering Portfolio" />
       </Head>
+
       <div className="min-h-screen flex flex-col cahier-bg">
         <Header />
+
         <main className="flex-grow container mx-auto px-4 py-12">
-          {/* Section À propos + Langages/Expérience/Éducation côte à côte */}
+          {/* Section À propos + Langages/Expérience/Éducation */}
           <section className={`flex flex-col md:flex-row gap-6 px-4 py-8 transition-opacity duration-1000 ${animate ? 'opacity-100' : 'opacity-0'}`}>
             {/* À propos */}
             <div className="flex-1 bg-cahier-paper shadow-xl rounded-lg border-4 border-black p-6 cahier-section transform transition duration-700 hover:scale-[1.02]">
@@ -70,53 +72,47 @@ export default function Home() {
                     priority
                   />
                 </div>
-                <div id="about">
-                  <h1 className="text-4xl font-bold text-black mb-2 handwritten-title">
-                    {bio?.titre}
-                  </h1>
-                  <p className="text-lg mb-4 handwritten-text">{bio?.sous_titre}</p>
-                  <p className="handwritten-text">{bio?.description}</p>
+                <div id="àpropos">
+                  <h1 className="text-4xl font-bold text-black mb-2">{bio?.titre}</h1>
+                  <p className="text-lg mb-4">{bio?.sous_titre}</p>
+                  <p className="text-lg mb-4">{bio?.description}</p>
                 </div>
               </div>
             </div>
 
-            {/* Langages, Expérience & Éducation */}
+            {/* Expérience, Éducation, Langages */}
             <div className="flex-1 bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6 cahier-section transform transition duration-700 hover:scale-[1.02]">
-              {/* Ruban : Expérience Pro */}
+              {/* Expérience Pro */}
               <div className="relative mb-6 pb-4 border-l-4 border-pink-500 pl-4 bg-pink-50 rounded-l-lg">
-                <h2 className="text-xl font-bold text-black mb-2 handwritten-title">💼 Expérience Professionnelle</h2>
+                <h2 className="text-xl font-bold text-black mb-2">💼 Expérience Professionnelle</h2>
                 <div className="space-y-3">
                   {exp.map((experience, index) => (
                     <div key={index} className="pl-4 border-l-2 border-pink-300">
-                      <h3 className="font-semibold handwritten-text">{experience.intitule}</h3>
-                      <p className="text-sm text-gray-700">
-                        {experience.date_debut} - {experience.date_fin || 'Présent'} · {experience.compagnie}
-                      </p>
-                      <p className="text-sm handwritten-text">{experience.description}</p>
+                      <h3 className="font-semibold">{experience.intitule}</h3>
+                      <p className="text-sm text-gray-700">{experience.date_debut} - {experience.date_fin || 'Présent'} · {experience.compagnie}</p>
+                      <p className="text-sm">{experience.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Ruban : Éducation */}
+              {/* Éducation */}
               <div className="relative mb-6 pb-4 border-l-4 border-purple-500 pl-4 bg-purple-50 rounded-l-lg">
-                <h2 className="text-xl font-bold text-black mb-2 handwritten-title">🎓 Formation</h2>
+                <h2 className="text-xl font-bold text-black mb-2">🎓 Formation</h2>
                 <div className="space-y-3">
                   {education.map((formation, index) => (
                     <div key={index} className="pl-4 border-l-2 border-purple-300">
-                      <h3 className="font-semibold handwritten-text">{formation.intitule}</h3>
-                      <p className="text-sm text-gray-700">
-                        {formation.date_debut} - {formation.date_fin || 'Présent'} · {formation.lieu}
-                      </p>
-                      <p className="text-sm handwritten-text">{formation.competences?.join(', ')}</p>
+                      <h3 className="font-semibold">{formation.intitule}</h3>
+                      <p className="text-sm text-gray-700">{formation.date_debut} - {formation.date_fin || 'Présent'} · {formation.lieu}</p>
+                      <p className="text-sm">{formation.competences?.join(', ')}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Ruban : Langages */}
+              {/* Langages */}
               <div className="relative pb-4 border-l-4 border-teal-500 pl-4 bg-teal-50 rounded-l-lg">
-                <h2 className="text-xl font-bold text-black mb-2 handwritten-title">💻 Langages</h2>
+                <h2 className="text-xl font-bold text-black mb-2">💻 Languages & Frameworks</h2>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
                   {(bio?.tech_stack || []).map((tech, index) => (
                     <Image
@@ -134,10 +130,10 @@ export default function Home() {
           </section>
 
           {/* Section Projets */}
-          <div id="projects" className="max-w-4xl mx-auto bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6 mb-8 cahier-section">
-            <h2 className="text-2xl font-bold text-black mb-4 handwritten-title">Projets</h2>
+          <div id="projets" className="max-w-4xl mx-auto bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6 mb-8 cahier-section">
+            <h2 className="text-2xl font-bold text-black mb-4">Projets</h2>
             <div className="flex flex-wrap gap-4">
-              {(projects || []).map((projet, index) => (
+              {projects.map((projet, index) => (
                 <div
                   key={index}
                   className="w-64 p-4 bg-yellow-100 border-l-4 border-yellow-300 rounded-sm shadow-md transform -rotate-1 hover:-rotate-2 hover:translate-y-[-3px] transition-transform duration-200 relative group"
@@ -148,10 +144,10 @@ export default function Home() {
                     href={`/articles/${projet.id || ''}`}
                     className="absolute top-2 right-2 w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:bg-gray-800 transition-colors"
                   >
-                    <span className="text-xl font-bold">+</span>
+                    <span className="text-xl font-bold" style={{color: 'white'}}>+</span>
                   </a>
-                  <h3 className="font-bold text-lg mb-1 handwritten-text">📁 {projet.nom}</h3>
-                  <p className="text-sm mb-2 handwritten-text">{projet.description}</p>
+                  <h3 className="font-bold text-lg mb-1">📁 {projet.nom}</h3>
+                  <p className="text-sm mb-2">{projet.description}</p>
                   <p className="text-xs"><strong>Objectifs :</strong> {projet.objectifs}</p>
                   <p className="text-xs"><strong>Langages :</strong> {projet.langages?.join(', ')}</p>
                   {projet.lien_github && (
@@ -168,31 +164,8 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          {/* Section réseaux sociaux */}
-          <div id="contact" className="max-w-4xl mx-auto bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6 mb-8 cahier-section">
-            <h2 className="text-2xl font-bold text-black mb-4 handwritten-title">🌐 Contacts</h2>
-            <div className="flex space-x-4">
-              {(bio?.reseaux_sociaux || []).map((reseau, index) => (
-                <a
-                  key={index}
-                  href={reseau.lien}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2"
-                >
-                  <Image
-                    src={`https://img.shields.io/badge/${reseau.nom}-%230077B5.svg?logo=${reseau.icone}&logoColor=white`}
-                    alt={reseau.nom}
-                    width={120}
-                    height={32}
-                    className="h-8 grayscale"
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
         </main>
+
         <Footer />
       </div>
     </>

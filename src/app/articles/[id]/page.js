@@ -11,23 +11,14 @@ export default function Article() {
   const [projet, setProjet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const router = useRouter();
   const params = useParams();
   const id = params?.id;
 
-  const nextImage = () => {
-    if (!article?.images?.length) return;
-    setCurrentImageIndex((prev) => (prev + 1) % article.images.length);
-  };
-
-  const prevImage = () => {
-    if (!article?.images?.length) return;
-    setCurrentImageIndex((prev) => (prev - 1 + article.images.length) % article.images.length);
-  };
-
   useEffect(() => {
     if (!id) return;
+
     const fetchArticle = async () => {
       try {
         setLoading(true);
@@ -38,6 +29,7 @@ export default function Article() {
           .maybeSingle();
         if (articleError) throw articleError;
         if (!articleData) throw new Error('Aucun article trouvé.');
+
         setArticle(articleData);
         setProjet(articleData.projet);
       } catch (err) {
@@ -47,6 +39,7 @@ export default function Article() {
         setLoading(false);
       }
     };
+
     fetchArticle();
   }, [id]);
 
@@ -57,51 +50,42 @@ export default function Article() {
   return (
     <div className="min-h-screen flex flex-col cahier-bg">
       <Header />
+
       <main className="flex-grow container mx-auto px-4 py-12 flex flex-col md:flex-row gap-6">
-        {/* Marge gauche : Post-its avec infos du projet */}
+        {/* Marge gauche */}
         <div className="w-full md:w-64 flex-shrink-0 space-y-4">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 mb-6 text-blue-600 hover:underline"
+            className="flex items-center gap-2 px-4 py-2 mb-6 bg-black text-white font-medium rounded-lg shadow hover:bg-gray-800 hover:scale-105 transition-transform duration-200"
           >
             ← Retour
           </button>
 
-          {/* Post-it : Nom du projet */}
+          {/* Nom du projet */}
           <div className="p-4 bg-yellow-100 border-l-4 border-yellow-300 rounded-sm shadow-md transform -rotate-1 hover:scale-105 transition-transform">
-            <h3 className="font-bold text-lg handwritten-text">📁 {projet.nom}</h3>
-            <p className="text-xs mt-1">
-              <strong>Créé en :</strong> {article.created_at ? new Date(article.created_at).getFullYear() : 'N/A'}
-            </p>
+            <h3 className="font-bold text-lg">📁 {projet.nom}</h3>
           </div>
 
-          {/* Post-it : Langages (si disponibles) */}
+          {/* Langages */}
           {projet.langages && projet.langages.length > 0 && (
             <div className="p-4 bg-blue-100 border-l-4 border-blue-300 rounded-sm shadow-md transform rotate-1 hover:scale-105 transition-transform">
-              <h3 className="font-bold text-lg handwritten-text">💻 Langages</h3>
+              <h3 className="font-bold text-lg">💻 Langages</h3>
               <div className="flex flex-wrap gap-1 mt-2">
                 {projet.langages.map((lang, index) => (
-                  <span key={index} className="px-2 py-1 bg-blue-200 text-xs rounded">
-                    {lang}
-                  </span>
+                  <span key={index} className="px-2 py-1 bg-blue-200 text-xs rounded">{lang}</span>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Post-it : Contributeurs (si disponibles) */}
+          {/* Contributeurs */}
           {article.contributeurs && article.contributeurs.length > 0 && (
             <div className="p-4 bg-green-100 border-l-4 border-green-300 rounded-sm shadow-md transform -rotate-2 hover:scale-105 transition-transform">
-              <h3 className="font-bold text-lg handwritten-text">👥 Contributeurs</h3>
+              <h3 className="font-bold text-lg">👥 Contributeurs</h3>
               <div className="space-y-2 mt-2">
                 {article.contributeurs.map((contrib, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <a
-                      href={contrib.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs hover:underline flex items-center"
-                    >
+                    <a href={contrib.github} target="_blank" rel="noopener noreferrer" className="text-xs hover:underline flex items-center">
                       <Image src="/github.svg" alt="GitHub" width={16} height={16} />
                       {contrib.nom}
                     </a>
@@ -112,57 +96,30 @@ export default function Article() {
           )}
         </div>
 
-        {/* Partie droite : Contenu de l'article */}
-        <div className="flex-1 bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6 cahier-section">
-          <h1 className="text-3xl font-bold mb-6 handwritten-title">{article.titre}</h1>
+        {/* Partie droite */}
+        <div className="flex-1 bg-cahier-paper shadow-lg rounded-lg border-2 border-black p-6">
+          <h1 className="text-3xl font-bold mb-6">{article.titre}</h1>
 
-          {/* Caroussel d'images (si disponibles) */}
-          {article.images && article.images.length > 0 && (
-            <div className="relative mb-6">
-              <div className="overflow-hidden rounded-lg">
-                <Image
-                  src={article.images[currentImageIndex]}
-                  alt={`Image ${currentImageIndex + 1}`}
-                  width={800}
-                  height={256}
-                  className="w-full h-64 object-cover"
-                  priority={currentImageIndex === 0}
-                />
-              </div>
-              <div className="flex justify-between mt-2">
-                <button
-                  onClick={prevImage}
-                  className="bg-gray-200 p-2 rounded-full hover:bg-gray-300"
-                >
-                  ←
-                </button>
-                <span className="self-center">
-                  {currentImageIndex + 1} / {article.images.length}
-                </span>
-                <button
-                  onClick={nextImage}
-                  className="bg-gray-200 p-2 rounded-full hover:bg-gray-300"
-                >
-                  →
-                </button>
-              </div>
+          {/* Image projet */}
+          {projet.image_url && (
+            <div className="mb-6">
+              <img
+                src={projet.image_url}
+                alt={projet.nom}
+                width={800}
+                height={400}
+                className="w-full h-64 md:h-96 object-cover rounded-lg"
+              />
             </div>
           )}
 
-          {/* Contenu de l'article */}
-          <div className="prose max-w-none mb-6">
-            <p className="handwritten-text whitespace-pre-line">{article.contenu}</p>
-          </div>
-
-          {/* Objectifs et description du projet */}
-          <div className="mt-8">
-            <h2 className="text-xl font-bold mb-4 handwritten-title">🎯 Objectifs</h2>
-            <p className="handwritten-text mb-4">{projet.objectifs}</p>
-            <h2 className="text-xl font-bold mb-4 handwritten-title">📝 Description</h2>
-            <p className="handwritten-text">{projet.description}</p>
+          {/* Contenu */}
+          <div className="max-w-none mb-6 whitespace-pre-line">
+            {article.contenu}
           </div>
         </div>
       </main>
+
       <Footer />
     </div>
   );
