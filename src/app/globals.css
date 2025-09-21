@@ -31,9 +31,9 @@ body {
     linear-gradient(rgba(128, 128, 128, 0.2) 1px, transparent 1px),
     linear-gradient(90deg, rgba(128, 128, 128, 0.2) 1px, transparent 1px);
   background-size: 20px 20px;
-  background-color: #fefae0; /* Couleur de fond beige clair */
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  color: black; /* Texte en noir */
+  background-color: #fefae0;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Style pour les sections "cahier" */
@@ -48,6 +48,7 @@ h1, h2, h3, h4 {
   color: black !important;
   font-weight: bold;
   text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Style pour les bordures */
@@ -69,7 +70,9 @@ img {
 a {
   color: black !important;
   text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
 }
+
 /* Fond quadrillé comme un cahier */
 .cahier-bg {
   background-color: #fefae0;
@@ -78,40 +81,41 @@ a {
     linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
   min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Style des sections "papier" */
 .cahier-style {
   position: relative;
   padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Fond blanc légèrement transparent pour les sections */
 .bg-cahier-paper {
   background-color: rgba(255, 255, 255, 0.9);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Style des titres et textes manuscrits */
-.handwritten-title {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  color: black;
-  text-decoration:none;
-}
-
+/* Suppression des styles manuscrits */
+.handwritten-title,
 .handwritten-text {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: black;
+  text-decoration: none;
 }
 
 /* Style des bordures et ombres */
 .cahier-section {
   border: 2px solid rgba(0, 0, 0, 0.3) !important;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Style des badges et surbrillance */
 .bg-cahier-highlight {
   background-color: rgba(255, 255, 0, 0.2);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Images en noir et blanc */
