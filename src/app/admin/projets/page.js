@@ -84,7 +84,7 @@ const handleImageUpload = async (file) => {
   }
 
   // Upload de la nouvelle image
-  const { data, error } = await supabase.storage
+  const {  error } = await supabase.storage
     .from('projets')
     .upload(`projets/${fileName}`, file, {
       cacheControl: '3600',
