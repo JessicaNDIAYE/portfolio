@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio – Jessica Ndiaye",
+  title: "Jessica Ndiaye",
   description: "Bienvenue sur mon portfolio personnel",
 };
 
