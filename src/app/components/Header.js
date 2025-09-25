@@ -30,7 +30,7 @@ const Header = () => {
 
             {/* CV externe */}
             <a
-              href="https://rxresu.me/ndiajessi13/data-science-stage"
+              href="https://rxresu.me/ndiajessi13/jessica-ndiaye-cv"
               target="_blank"
               rel="noopener noreferrer"
               className="nav-link text-white/90 hover:text-white transition-colors"
